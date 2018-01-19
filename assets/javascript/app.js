@@ -5,28 +5,30 @@ var allEffects = [];
 
 function renderFlavorButtons(){
     $(".all-flavor-buttons").empty();
-allFlavors.sort();
+    
+    allFlavors.sort();
     for (var i=0; i<allFlavors.length; i++){
         var tempButton = $("<button>");
-        tempButton.addClass("flavor-list-item");
-        tempButton.addClass("preference");
+        tempButton.addClass("flavor-list-item btn btn-success btn-sm preference");
         tempButton.attr("data-name", allFlavors[i]);
         tempButton.text(allFlavors[i]);
         $(".all-flavor-buttons").append(tempButton);
     }
+    allFlavors = [];
 }
 
 function renderEffectsButtons(){
     $(".all-effect-buttons").empty();
-allEffects.sort();
+    
+    allEffects.sort();
     for (var i=0; i<allEffects.length; i++){
         var tempButton = $("<button>");
-        tempButton.addClass("effect-list-item");
-        tempButton.addClass("preference");
+        tempButton.addClass("effect-list-item btn btn-success btn-sm preference");
         tempButton.attr("data-name", allEffects[i]);
         tempButton.text(allEffects[i]);
         $(".all-effect-buttons").append(tempButton);
     }
+    allEffects = [];
 }
 
 //Hitting All Flavors button
@@ -35,7 +37,7 @@ $(".all-flavors").on("click", function(event){
 
 console.log("all flavors pressed");
    
-    var queryURL = "https://strainapi.evanbusse.com/" + APIforEvan + "/searchdata/flavors";
+    var queryURL = "http://strainapi.evanbusse.com/" + APIforEvan + "/searchdata/flavors";
     $.ajax({
         dataType: "json",
         url: queryURL,
@@ -44,9 +46,7 @@ console.log("all flavors pressed");
         console.log(response);
 
         for (var i=0; i < response.length; i++){
-            allFlavors.push(response[i]);
-
-            
+            allFlavors.push(response[i]);         
         }
 
         renderFlavorButtons();
@@ -63,7 +63,7 @@ $(document).on("click", ".flavor-list-item",function(){
         var flavor = $(this).attr("data-name");
         console.log(flavor);
     
-        var queryURL = "https://strainapi.evanbusse.com/" + APIforEvan +"/strains/search/flavor/" + flavor;
+        var queryURL = "http://strainapi.evanbusse.com/" + APIforEvan +"/strains/search/flavor/" + flavor;
         $.ajax({
             dataType: "json",
             url: queryURL,
@@ -80,7 +80,7 @@ $(".flavor-submit").on("click", function(event){
 
 console.log("flavor pressed");
     var flavor = $(".flavor-input").val().trim();
-    var queryURL = "https://strainapi.evanbusse.com/" + APIforEvan +"/strains/search/flavor/" + flavor;
+    var queryURL = "http://strainapi.evanbusse.com/" + APIforEvan +"/strains/search/flavor/" + flavor;
     $.ajax({
         dataType: "json",
         url: queryURL,
@@ -102,11 +102,11 @@ $(".strain-submit").on("click", function(event){
 console.log("strain pressed");
     var strain = $(".strain-input").val().trim();
     // var pageNumber = 1;
-    // var queryURL = "https://api.otreeba.com/v1/strains?page="+ pageNumber + "&count=50&sort=name";
+    // var queryURL = "http://api.otreeba.com/v1/strains?page="+ pageNumber + "&count=50&sort=name";
 
-    var queryURL = "https://strainapi.evanbusse.com/" + APIforEvan + "/strains/search/name/" + strain;
+    var queryURL = "http://strainapi.evanbusse.com/" + APIforEvan + "/strains/search/name/" + strain;
 
-//     $.getJSON("https://www.cannabisreports.com/api/v1.0/strains/VUJCJ4TYMG000000000000000", function(data) { 
+//     $.getJSON("http://www.cannabisreports.com/api/v1.0/strains/VUJCJ4TYMG000000000000000", function(data) { 
 //     console.log(data);
 // });
     $.ajax({
@@ -130,7 +130,7 @@ $(".all-effects").on("click", function(event){
 
 console.log("all effects pressed");
 
-    var queryURL = "https://strainapi.evanbusse.com/" + APIforEvan + "/searchdata/effects";
+    var queryURL = "http://strainapi.evanbusse.com/" + APIforEvan + "/searchdata/effects";
     $.ajax({
         dataType: "json",
         url: queryURL,
@@ -158,13 +158,18 @@ $(document).on("click", ".effect-list-item",function(){
         var effect = $(this).attr("data-name");
         console.log(effect);
     
-        var queryURL = "https://strainapi.evanbusse.com/" + APIforEvan +"/strains/search/effect/" + effect;
+        var queryURL = "http://strainapi.evanbusse.com/" + APIforEvan +"/strains/search/effect/" + effect;
         $.ajax({
             dataType: "json",
             url: queryURL,
             method: "GET",
         }).done(function(response){
             console.log(response);
+
+            for (var i = 0; i < response.length; i++) {
+                var testa = response[i].name;
+                $(".testcontent").append(testa);
+            }
         })
     
     });
@@ -176,7 +181,7 @@ $(".effect-submit").on("click", function(event){
 console.log("effect pressed");
 
     var effect = $(".effect-input").val().trim();
-    var queryURL = "https://strainapi.evanbusse.com/" +APIforEvan + "/strains/search/effect/" + effect;
+    var queryURL = "http://strainapi.evanbusse.com/" +APIforEvan + "/strains/search/effect/" + effect;
     $.ajax({
         dataType: "json",
         url: queryURL,
@@ -190,5 +195,3 @@ console.log(response);
     });
 
 });
-
-
